@@ -1,6 +1,9 @@
 <?php
 
+namespace Core;
+
 use Config\Config;
+use PDO;
 
 abstract class Model
 {
@@ -9,7 +12,7 @@ abstract class Model
     protected static function connect()
     {
         if (is_null(static::$connect)) {
-            $dsn = 'mysql:host=' . Config::get('db.host') . 'db.name' . Config::get('db.database');
+            $dsn = 'mysql:host=' . Config::get('db.host') . ';dbname=' . Config::get('db.database');
             $options = [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC];
             self::$connect = new PDO(
                 $dsn,
@@ -19,7 +22,7 @@ abstract class Model
             );
             self::$connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+
         return self::$connect;
     }
-
 }
