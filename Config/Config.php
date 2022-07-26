@@ -8,21 +8,24 @@ class Config
     {
         $configs = include __DIR__ . '/configs.php';
         $keys = explode('.', $name);
+
         return self::findByKeys($keys, $configs);
     }
 
     private static function findByKeys(array $keys, array $configs): mixed
     {
         $value = null;
+
         if (empty($keys)) {
             return $value;
         }
+
         $key = array_shift($keys);
 
         if (array_key_exists($key, $configs)) {
             $value = is_array($configs[$key]) ? self::findByKeys($keys, $configs[$key]) : $configs[$key];
         }
+
         return $value;
     }
-
 }
